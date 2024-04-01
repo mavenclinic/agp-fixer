@@ -9,6 +9,17 @@
 plugins {
     // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
     `java-gradle-plugin`
+    alias(libs.plugins.plugin.publish.plugin)
+}
+
+val version = "0.1.0"
+group = "com.mavenclinic"
+
+// match AGP requirements
+java {
+    withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 testing {
@@ -21,17 +32,22 @@ testing {
     }
 }
 
+// add a dependency on Guava to force it onto the classpath. Adding this as a dependency in a
+// custom settings plugin seems to resolve https://issuetracker.google.com/issues/330202433
+// while just adding it to the classpath in a buildscript block does not.
+dependencies {
+    implementation(libs.guava)
+}
+
 gradlePlugin {
     // Define the plugin
     val agpFixer by plugins.creating {
         id = "com.mavenclinic.agp.fixer"
         implementationClass = "com.mavenclinic.gradle.agp.fixer.AgpFixerPlugin"
+        displayName = "Agp Fixer"
+        description = "A plugin that exists to fix the missing Guava issue when using Gradle 8.6+ and AGP8.3"
+        @Suppress("UnstableApiUsage")
+        tags = listOf("android", "guava", "settings")
     }
 }
 
-// add a dependency on Guava to force it onto the classpath. Adding this as a dependency in a 
-// custom settings plugin seems to resolve https://issuetracker.google.com/issues/330202433 
-// while just adding it to the classpath in a buildscript block does not. 
-dependencies {
-    implementation(libs.guava)
-}

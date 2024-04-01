@@ -9,6 +9,9 @@ import org.gradle.api.initialization.Settings;
 
 import javax.annotation.Nonnull;
 
+/**
+ * This plugin is used to apply the correct version of Guava to the classpath
+ */
 public class AgpFixerPlugin implements Plugin<Settings> {
 
     @Override

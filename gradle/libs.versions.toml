@@ -1,5 +1,9 @@
 [versions]
 guava = "32.0.1-jre"
+plugin-publish = "1.2.1"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+
+[plugins]
+plugin-publish-plugin = { id = "com.gradle.plugin-publish", version.ref = "plugin-publish" }
