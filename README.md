@@ -2,21 +2,52 @@
 
 A project that exists to fix the guava issue that sometimes shows up in AGP 8.3 when used with Gradle 8.6+. See Google issue tracker [AGP issue 330202433](https://issuetracker.google.com/issues/330202433) for more details. 
 
-<!-- ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/maven-clinic/android/agp-fixer/-/settings/integrations) -->
+## Usage
 
-<!-- ## Collaborate with your team
+Agp Fixer should be added as a settings plugin to your Gradle settings script. As we have not yet formally
+published the plugin, you should consume it via a Gradle
+[Composite Build](https://docs.gradle.org/current/userguide/composite_builds.html). Start by cloning this
+repo into the same directory as the project you want to use it in. If your Android project is named 
+"my-awesome-app", your directory structure should look like something like this
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html) -->
+```
+my-code
+ | \
+ |  | my-awesome-app
+ |  | agp-fixer
+ |  | <other cool projects>
+```
+
+Once you've cloned this repo, you'll need to configure your `settings.gradle` file to start and consume an included build. 
+
+
+```kotlin
+// settings.gradle.kts
+rootProject.name = "my-awesome-app"
+pluginManagement {
+    repositories {
+        // normal repositories here
+    }
+    // included build!!
+    includeBuild("../agp-fixer")
+}
+
+// register the settings plugin
+plugins {
+    id("com.mavenclinic.agp.fixer")
+}
+
+include(":normal-modules-go-here")
+```
+
+If you're already using the pluginManagement block, all you need to do is add the plugin and included
+build, and that's it, the correct version of Guava will be added to your classpath, and you should be
+able to bundle again. 
 
 ## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
+TODO
 
 - [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
 - [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
@@ -25,36 +56,6 @@ Use the built-in continuous integration in GitLab.
 - [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
 ***
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-
-## Usage
-
-Agp Fixer should be added as a settings plugin to your Gradle settings script
-
-```kotlin
-// settings.gradle.kts
-rootProject.name = "my-awesome-app"
-pluginManagement {
-    repositories {
-        // actual repo here
-    }
-}
-
-plugins {
-    id("com.mavenclinic.agp.fixer")
-}
-
-include(":modules-go-here")
-```
-
-If you're already using the pluginManagement block, all you need to do is add the plugin!
 
 
 ## Contributing

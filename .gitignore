@@ -6,3 +6,7 @@ build
 
 # Mac droppings
 .DS_Store
+
+local.properties
+
+.idea
